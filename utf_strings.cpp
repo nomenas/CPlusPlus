@@ -5,18 +5,6 @@
 #include <codecvt>
 #include <iostream>
 
-std::string ToUtf8(const wchar_t *string)
-{
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convertor;
-    return convertor.to_bytes(string);
-}
-
-std::wstring FromUtf8(const char *string)
-{
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convertor;
-    return convertor.from_bytes(string);
-}
-
 int main()
 {
     auto normal = "I'm a UTF-8 string. Test this '‘'";
