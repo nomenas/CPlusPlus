@@ -1,0 +1,3 @@
+add_library(globalconfigLib STATIC globalconfig_lib.cpp)
+add_executable(globalconfig globalconfig.cpp)
+target_link_libraries(globalconfig globalconfigLib)
