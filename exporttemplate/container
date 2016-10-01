@@ -1,0 +1,13 @@
+//
+// Created by Naum Puroski on 10/1/16.
+//
+
+#ifndef EXPORTTEMPLATE_CONTAINERS_H
+#define EXPORTTEMPLATE_CONTAINERS_H
+
+#include "apitype.h"
+#include "container.h"
+
+extern template class API my::Vector<int>;
+
+#endif //EXPORTTEMPLATE_CONTAINERS_H
