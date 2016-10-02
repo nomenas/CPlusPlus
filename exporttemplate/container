@@ -5,9 +5,11 @@
 #ifndef EXPORTTEMPLATE_CONTAINERS_H
 #define EXPORTTEMPLATE_CONTAINERS_H
 
+#include "foo.h"
 #include "apitype.h"
 #include "container.h"
 
 extern template class API my::Vector<int>;
+extern template class API my::Vector<Foo>;
 
 #endif //EXPORTTEMPLATE_CONTAINERS_H

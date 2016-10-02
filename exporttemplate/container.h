@@ -5,9 +5,12 @@
 
 namespace my {
     template <typename T>
-    class Container : public std::vector<T>
+    class Vector : public std::vector<T>
     {
     public:
+        using std::vector<T>::vector;
+
+        // test method from dynamic library
         const char* type() const;
     };
 }
