@@ -1,12 +1,12 @@
 #ifdef WIN32
 #include <direct.h>
 #endif
+
 #include <locale>
 #include <codecvt>
 #include <iostream>
 
-int main()
-{
+int main() {
     auto normal = "I'm a UTF-8 string. Test this '‘'";
     auto utf8 = u8"I'm a UTF-8 string. Test this '\u2018'";
     auto utf16 = u"This is a UTF-16 string. Test this '\u2018'";
