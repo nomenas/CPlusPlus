@@ -7,7 +7,12 @@
 
 #include "Object.h"
 
-template <class T, bool ReadOnly = false>
+enum class Privileges {
+    ReadWrite,
+    ReadOnly
+};
+
+template <class T, Privileges privileges = Privileges::ReadWrite>
 class Property {
 public:
     Property(Object* object, int id, const T& value)
@@ -38,7 +43,7 @@ private:
 };
 
 template <typename T>
-class Property<T, true> {
+class Property<T, Privileges::ReadOnly> {
     friend class Object;
 public:
     Property(Object* object, int id, const T& value)
@@ -55,7 +60,7 @@ public:
     }
 
 private:
-    Property<T, true>& operator=(const T& value) {
+    Property<T, Privileges::ReadOnly>& operator=(const T& value) {
         if (m_value != value) {
             m_value = value;
             m_object->notify(Object::PropertyChanged, m_id, nullptr);

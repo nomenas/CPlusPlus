@@ -28,7 +28,7 @@ public:
     virtual bool disconnect() = 0;
 
     Property<std::string> name{this, Name, ""};
-    Property<std::string, true> readOnly{this, ReadOnly, ""};
+    Property<std::string, Privileges::ReadOnly> readOnly{this, ReadOnly, ""};
 };
 
 #endif //FRIENDLYWITHC_DEVICE_H

@@ -17,7 +17,7 @@ class Connection : public Object {
 
     Connection(Device* device) {}
 
-    Property<unsigned short, true> port{this, Port, 0};
+    Property<unsigned short, Privileges::ReadOnly> port{this, Port, 0};
 };
 
 #endif //FRIENDLYWITHC_CONNECTION_H
