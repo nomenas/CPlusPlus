@@ -8,17 +8,16 @@
 ConcreteDevice::ConcreteDevice(const std::string& ip, unsigned short port)
  : m_ip(ip)
  , m_port(port) {
-
+    setProperty(name, "Router 123");
+    setProperty(readOnly, "test");
 }
 
-const std::string& ConcreteDevice::ip() const {
-    return m_ip;
+bool ConcreteDevice::connect() {
+    notify(Connected);
+    return true;
 }
 
-unsigned short ConcreteDevice::port() const {
-    return m_port;
-}
-
-const std::vector<std::unique_ptr<Connection>>& ConcreteDevice::connections() const {
-    return m_connections;
+bool ConcreteDevice::disconnect() {
+    notify(Disconnected);
+    return true;
 }

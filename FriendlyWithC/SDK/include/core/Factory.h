@@ -12,12 +12,12 @@ class Factory {
     using Type = std::function<Product*(const Config&)>;
 
 public:
-    static Product* Create(const Config& config, Object::Delegate delegate = Object::Delegate()) {
+    static Product* Create(const Config& config, Object::Observer observer = Object::Observer()) {
         Product* returnValue = instance().FactoryMethod(config);
 
-        if (returnValue && delegate) {
-            returnValue->setDelegate(delegate);
-            delegate(Object::Created, -1, nullptr);
+        if (returnValue && observer) {
+            returnValue->addObserver(observer);
+            observer(Object::Created, -1, nullptr);
         }
         return returnValue;
     }

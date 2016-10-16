@@ -2,12 +2,12 @@
 // Created by Naum Puroski on 16/10/2016.
 //
 
-#include <functional>
 #include "ConcreteDevice.h"
+#include <factory/DeviceFactory.h>
 
 struct ConcreteDeviceFactory {
     ConcreteDeviceFactory() {
-        DeviceFactory::SetFactory([](const Device::Config& config) -> Device* {
+        DeviceFactory::SetFactory([](const DeviceConfig& config) -> Device* {
             return (config.port && !config.ip.empty()) ?
                 new ConcreteDevice(config.ip, config.port) : nullptr;
         });
