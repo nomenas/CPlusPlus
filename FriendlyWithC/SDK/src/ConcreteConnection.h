@@ -5,8 +5,14 @@
 #ifndef FRIENDLYWITHC_CONCRETECONNECTION_H
 #define FRIENDLYWITHC_CONCRETECONNECTION_H
 
+#include <domain/Connection.h>
 
-class ConcreteConnection {
+class Device;
+
+class ConcreteConnection : public Connection {
+public:
+    ConcreteConnection(Device* device);
+
 
 };
 

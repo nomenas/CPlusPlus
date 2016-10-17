@@ -5,19 +5,20 @@
 #ifndef FRIENDLYWITHC_CONNECTION_H
 #define FRIENDLYWITHC_CONNECTION_H
 
-#include <core/Object.h>
 #include <core/Property.h>
 
-class Device;
+#include <domain/Device.h>
 
 class Connection : public Object {
     enum PropertyID {
-        Port
+        DeviceProperty,
+        PortProperty
     };
 
-    Connection(Device* device) {}
+    Connection(Device* device) : Object(device) {}
 
-    Property<unsigned short, Privileges::ReadOnly> port{this, Port, 0};
+    Property<Device*, DeviceProperty, Permission::ReadOnly> device{this, nullptr};
+    Property<unsigned short, PortProperty, Permission::ReadOnly> port{this , 0};
 };
 
 #endif //FRIENDLYWITHC_CONNECTION_H

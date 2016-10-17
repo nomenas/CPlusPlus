@@ -7,13 +7,12 @@
 #include <factory/DeviceFactory.h>
 
 int main() {
-    auto deviceDelegate = [](int event, int property, void* data) -> bool{
+    auto deviceDelegate = [](int event, int property, const void* data) {
         std::cout << "Event received: " << event << ", property = " << property << ", data = " << (long) data << std::endl;
-        return true;
     };
     // test creation of device object with valid configuration
     std::unique_ptr<Device> device{DeviceFactory::Create(DeviceConfig{"192.168.1.100", 50}, deviceDelegate)};
-    std::cout << "device name " << device->name.value() << ", readOnly = " << device->readOnly.value() << std::endl;
+    std::cout << "device name " << device->name.value() << ", readOnly = " << device->readOnlyProperty.value() << std::endl;
 
     // test creation of device object with invalid object
     std::unique_ptr<Device> invalidDevice{DeviceFactory::Create(DeviceConfig{}, deviceDelegate)};

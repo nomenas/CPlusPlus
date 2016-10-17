@@ -5,6 +5,8 @@
 #ifndef FRIENDLYWITHC_DEVICEFACTORY_H_H
 #define FRIENDLYWITHC_DEVICEFACTORY_H_H
 
+#include <memory>
+
 #include <core/Factory.h>
 
 struct DeviceConfig {
@@ -12,6 +14,6 @@ struct DeviceConfig {
     unsigned short port;
 };
 
-using DeviceFactory = Factory<Device, DeviceConfig>;
+using DeviceFactory = Factory<std::unique_ptr<Device>, DeviceConfig>;
 
 #endif //FRIENDLYWITHC_DEVICEFACTORY_H_H

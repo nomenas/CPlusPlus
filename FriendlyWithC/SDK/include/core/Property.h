@@ -6,71 +6,72 @@
 #define FRIENDLYWITHC_PROPERTY_H
 
 #include "Object.h"
+#include "Permission.h"
 
-enum class Privileges {
-    ReadWrite,
-    ReadOnly
-};
-
-template <class T, Privileges privileges = Privileges::ReadWrite>
+template <class TYPE, int ID, Permission PERMISSION = Permission::ReadWrite>
 class Property {
 public:
-    Property(Object* object, int id, const T& value)
+    Property(Object* object, const TYPE& value)
             : m_object(object)
-            , m_id(id)
             , m_value(value) {}
 
-    operator const T& () const {
+    operator const TYPE& () const {
         return m_value;
     }
 
-    Property<T>& operator=(const T& value) {
-        if (m_value != value) {
+    Property<TYPE, ID>& operator=(const TYPE& value) {
+        if (m_value != value && m_object->onPropertyAboutToChange(ID, &value)) {
+            m_object->notify(Object::PropertyAboutToChange, ID, &value);
             m_value = value;
-            m_object->notify(Object::PropertyChanged, m_id, nullptr);
+            m_object->notify(Object::PropertyChanged, ID, nullptr);
         }
         return *this;
     }
 
-    const T& value() const {
+    const TYPE& value() const {
         return m_value;
+    }
+
+    void set(const TYPE& value) {
+        *this = value;
     }
 
 private:
     Object* m_object;
-    int m_id;
-    T m_value;
+    TYPE m_value;
 };
 
-template <typename T>
-class Property<T, Privileges::ReadOnly> {
+template <typename TYPE, int ID>
+class Property<TYPE, ID, Permission::ReadOnly> {
     friend class Object;
 public:
-    Property(Object* object, int id, const T& value)
+    Property(Object* object, const TYPE& value)
             : m_object(object)
-            , m_id(id)
             , m_value(value) {}
 
-    operator const T& () const {
+    operator const TYPE& () const {
         return m_value;
     }
 
-    const T& value() const {
+    const TYPE& value() const {
         return m_value;
     }
 
 private:
-    Property<T, Privileges::ReadOnly>& operator=(const T& value) {
+    Property<TYPE, ID, Permission::ReadOnly>& operator=(const TYPE& value) {
         if (m_value != value) {
             m_value = value;
-            m_object->notify(Object::PropertyChanged, m_id, nullptr);
+            m_object->notify(Object::PropertyChanged, ID, nullptr);
         }
         return *this;
     }
 
+    void set(const TYPE& value) {
+        *this = value;
+    }
+
     Object* m_object;
-    int m_id;
-    T m_value;
+    TYPE m_value;
 };
 
 #endif //FRIENDLYWITHC_PROPERTY_H

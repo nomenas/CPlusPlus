@@ -9,8 +9,10 @@
 
 #include <core/Object.h>
 #include <core/Property.h>
+#include <core/Collection.h>
 
 class Connection;
+class Resource;
 
 class Device : public Object {
 public:
@@ -20,15 +22,17 @@ public:
     };
 
     enum PropertyID {
-        Name,
-        ReadOnly
+        NameProperty,
+        ReadOnlyFieldProperty,
+        ResourcesCollection,
     };
 
     virtual bool connect() = 0;
     virtual bool disconnect() = 0;
 
-    Property<std::string> name{this, Name, ""};
-    Property<std::string, Privileges::ReadOnly> readOnly{this, ReadOnly, ""};
+    Property<std::string, NameProperty> name{this, ""};
+    Property<std::string, ReadOnlyFieldProperty, Permission::ReadOnly> readOnlyProperty{this, ""};
+    Collection<Resource*, ResourcesCollection, Permission::ReadOnly> resources{this};
 };
 
 #endif //FRIENDLYWITHC_DEVICE_H

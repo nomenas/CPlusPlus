@@ -5,13 +5,14 @@
 #ifndef FRIENDLYWITHC_CONNECTIONFACTORY_H
 #define FRIENDLYWITHC_CONNECTIONFACTORY_H
 
-//#include <core/Factory.h>
-//
-//struct ConnectionConfig {
-//    Device* device;
-//};
-//
-//using ConnectionFactory = Factory<Connection, ConnectionConfig>;
+#include <domain/Connection.h>
+#include <core/Factory.h>
+
+struct ConnectionConfig {
+    Device* device;
+};
+
+using ConnectionFactory = Factory<Connection*, ConnectionConfig>;
 
 
 #endif //FRIENDLYWITHC_CONNECTIONFACTORY_H

@@ -5,15 +5,15 @@
 #include "ConcreteConnection.h"
 #include <factory/ConnectionFactory.h>
 
-//struct ConcreteConnectionFactory {
-//    ConcreteConnectionFactory() {
-//        ConnectionFactory ::SetFactory([](const ConnectionConfig& config) -> Device* {
-//            return nullptr;
-//        });
-//    }
-//    ~ConcreteConnectionFactory() {
-//        ConnectionFactory::SetFactory(nullptr);
-//    }
-//};
+struct ConcreteConnectionFactory {
+    ConcreteConnectionFactory() {
+        ConnectionFactory ::SetFactory([](const ConnectionConfig& config) -> Connection* {
+            return nullptr;
+        });
+    }
+    ~ConcreteConnectionFactory() {
+        ConnectionFactory::SetFactory(nullptr);
+    }
+};
 
 //static const ConcreteConnectionFactory _concreteConnectionFactory;

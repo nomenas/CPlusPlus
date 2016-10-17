@@ -7,9 +7,9 @@
 
 struct ConcreteDeviceFactory {
     ConcreteDeviceFactory() {
-        DeviceFactory::SetFactory([](const DeviceConfig& config) -> Device* {
-            return (config.port && !config.ip.empty()) ?
-                new ConcreteDevice(config.ip, config.port) : nullptr;
+        DeviceFactory::SetFactory([](const DeviceConfig& config) -> std::unique_ptr<Device> {
+            return std::unique_ptr<Device>{(config.port && !config.ip.empty()) ?
+                new ConcreteDevice(config.ip, config.port) : nullptr};
         });
     }
     ~ConcreteDeviceFactory() {

@@ -7,19 +7,36 @@
 
 #include <functional>
 #include <map>
+#include <vector>
 
 class Object {
 public:
-    using Observer = std::function<bool(int event, int property, void* data)>;
+    using Observer = std::function<void(int event, int property, const void* data)>;
 
     enum Event {
         Created,
         Destroyed,
+        PropertyAboutToChange,
         PropertyChanged,
+        ItemAboutToAdd,
+        ItemAdded,
+        ItemAboutToRemove,
+        ItemRemoved,
+        CollectionAboutToClear,
+        CollectionCleared,
+        CollectionAboutToUpdate,
+        CollectionUpdated,
         Domain = 1000
     };
 
+    Object(Object* parent = nullptr) {
+        if ((m_parent = parent)) {
+            parent->m_children.push_back(this);
+        }
+    }
+
     virtual ~Object() {
+        std::for_each(m_children.begin(), m_children.end(), std::default_delete<Object>());
         notify(Event::Destroyed);
     }
 
@@ -32,21 +49,29 @@ public:
         m_observers.erase(id);
     }
 
-    void notify(int event, int property = -1, void* data = nullptr) {
+    virtual bool onPropertyAboutToChange(int propertyID, const void* data) {
+        return true;
+    }
+
+    virtual bool onCollectionAboutToChange(int propertyID, int eventID, const void* data) {
+        return true;
+    }
+
+    void notify(int event, int property = -1, const void* data = nullptr) {
         for (auto iter : m_observers) {
-            if (!iter.second(event, property, data)) {
-                break;
-            }
+            iter.second(event, property, data);
         }
     }
 
 protected:
     template <typename T, typename V>
     void setProperty(T& property, const V& value) {
-        property = value;
+        property.set(value);
     }
 
 private:
+    Object* m_parent;
+    std::vector<Object*> m_children;
     unsigned int m_maxObserverID = 0;
     std::map<unsigned int, Observer> m_observers;
 };

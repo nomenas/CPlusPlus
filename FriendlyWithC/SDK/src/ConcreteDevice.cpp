@@ -9,7 +9,7 @@ ConcreteDevice::ConcreteDevice(const std::string& ip, unsigned short port)
  : m_ip(ip)
  , m_port(port) {
     setProperty(name, "Router 123");
-    setProperty(readOnly, "test");
+    setProperty(readOnlyProperty, "test");
 }
 
 bool ConcreteDevice::connect() {

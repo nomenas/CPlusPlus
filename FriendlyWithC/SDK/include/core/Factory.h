@@ -7,13 +7,13 @@
 
 #include <functional>
 
-template <typename Product, typename Config>
+template <typename PRODUCT, typename CONFIG>
 class Factory {
-    using Type = std::function<Product*(const Config&)>;
+    using Type = std::function<PRODUCT(const CONFIG&)>;
 
 public:
-    static Product* Create(const Config& config, Object::Observer observer = Object::Observer()) {
-        Product* returnValue = instance().FactoryMethod(config);
+    static PRODUCT Create(const CONFIG& config, Object::Observer observer = Object::Observer()) {
+        PRODUCT returnValue{instance().FactoryMethod(config)};
 
         if (returnValue && observer) {
             returnValue->addObserver(observer);
@@ -27,8 +27,8 @@ public:
     }
 
 private:
-    static Factory<Product, Config>& instance() {
-        static Factory<Product, Config> _instance;
+    static Factory<PRODUCT, CONFIG>& instance() {
+        static Factory<PRODUCT, CONFIG> _instance;
         return _instance;
     }
 
