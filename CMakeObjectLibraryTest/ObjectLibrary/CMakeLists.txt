@@ -1,0 +1,1 @@
+add_library(ObjectLibrary OBJECT FooObject.h FooObject.cpp)

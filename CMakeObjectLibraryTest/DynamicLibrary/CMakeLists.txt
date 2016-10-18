@@ -1,0 +1,1 @@
+add_library(DynamicLibrary SHARED $<TARGET_OBJECTS:ObjectLibrary>)
