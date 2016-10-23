@@ -67,7 +67,36 @@ void testParseUrl() {
     }
 }
 
+void testRegexIterator() {
+    const std::string http_header{
+            "HTTP/1.1 200 OK\n"
+                    "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0\n"
+                    "Connection: close\n"
+                    "Pragma: no-cache\n"
+                    "Content-Type: application/json\n"
+                    "Expires: Mon, 1 Aug 2011 09:00:00 GMT\n"
+                    "Access-Control-Max-Age: 3600\n"
+                    "Access-Control-Allow-Origin: *\n"
+                    "Access-Control-Allow-Credentials: true\n"
+                    "Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE, HEAD\n"
+                    "Access-Control-Allow-Headers: Content-Type"};
 
+
+    std::regex url_re{"\\n"};
+    auto iter = std::sregex_token_iterator(http_header.begin(), http_header.end(), url_re, -1);
+    while (iter != std::sregex_token_iterator()) {
+        std::string item = *iter;
+        std::regex url_regex("(.+):\\s+(\\w.+)");
+        std::cmatch what;
+        if(std::regex_match(item.c_str(), what, url_regex))
+        {
+            std::cout << "header: " << std::string(what[1].first, what[1].second) << std::endl;
+            std::cout << "value:  " << std::string(what[2].first, what[2].second) << std::endl;
+        }
+
+        ++iter;
+    }
+}
 
 int main() {
     std::cout << "\n*** Playing with regex ***\n" << std::endl;
@@ -79,8 +108,12 @@ int main() {
     std::cout << "\n*** Replace all words larger than 7" << std::endl;
     replaceAllStringLargerThenThen7();
 
-    std::cout << "*** Parse url test ***" << std::endl;
+    std::cout << "\n*** Parse url test ***" << std::endl;
     testParseUrl();
+
+    std::cout << "\n*** Regex iterator ***" << std::endl;
+    testRegexIterator();
+
 
     return 0;
 }

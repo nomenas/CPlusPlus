@@ -11,4 +11,4 @@ add_executable(variadic_sequential_processing variadic_sequential_processing.cpp
 add_executable(variadic_function_call variadic_function_call.cpp)
 add_executable(variadic_factorymethod variadic_factorymethod.cpp)
 add_executable(proxy variadic_proxy.cpp)
-add_executable(regext regex.cpp)
+add_executable(regex regex.cpp)
