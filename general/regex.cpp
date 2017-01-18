@@ -98,6 +98,34 @@ void testRegexIterator() {
     }
 }
 
+void parseAndReplaceJSON() {
+    std::string json{"{\"key1\": value1, \"key2\": value2, \"key3\": value3}"};
+    static const std::regex json_regex{"\"key1\"[^,;]+|\"key3\"[^,;]+", std::regex_constants::icase};
+
+    std::regex_iterator<std::string::iterator> it (json.begin(), json.end(), json_regex);
+    std::regex_iterator<std::string::iterator> end;
+
+    if (it != end) {
+        std::string new_json;
+        size_t current_pos = 0;
+        while (it != end)
+        {
+            new_json += json.substr(current_pos, it->position() - current_pos);
+            if (it->str().find("key1") != std::string::npos) {
+                new_json += "\"key1\":\"value_new";
+            } if (it->str().find("key3") != std::string::npos) {
+                new_json += "\"key3\":\"value_new";
+            }
+            current_pos = it->position() + it->length() - 1;
+            ++it;
+        }
+        new_json += json.substr(current_pos);
+        std::cout << new_json << std::endl;
+    } else {
+        std::cout << json << std::endl;
+    }
+}
+
 int main() {
     std::cout << "\n*** Playing with regex ***\n" << std::endl;
     testRegexWithNubers();
@@ -114,6 +142,9 @@ int main() {
     std::cout << "\n*** Regex iterator ***" << std::endl;
     testRegexIterator();
 
+
+    std::cout << "\n*** JSON test ***" << std::endl;
+    parseAndReplaceJSON();
 
     return 0;
 }
