@@ -3,9 +3,9 @@ project(exporttemplate)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(LIB_SOURCE_FILES container.cpp container.h container foo.h apitype.h)
+set(LIB_SOURCE_FILES container.cpp api.h MyType.cpp)
 add_library(lib STATIC ${LIB_SOURCE_FILES})
 
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES main.cpp test.cpp)
 add_executable(exporttemplate ${SOURCE_FILES})
 target_link_libraries(exporttemplate lib)
