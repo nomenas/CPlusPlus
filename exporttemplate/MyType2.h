@@ -11,7 +11,7 @@ template <typename T>
 struct MyType {
     T _value;
 
-    int method() const {
+    int method1() const {
         return 2;
     }
 

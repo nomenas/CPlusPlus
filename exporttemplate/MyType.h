@@ -12,7 +12,7 @@ struct MyType {
     T _offset;
     T _value;
 
-    int method() const {
+    int method1() const {
         return _value;
     }
 
