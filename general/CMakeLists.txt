@@ -1,7 +1,7 @@
 project(cplusplus)
 cmake_minimum_required(VERSION 2.8)
 
-set (CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -std=c++1z)
 add_executable(constexpr constexpr.cpp)
 add_executable(constexpr_lookup constexpr_lookup.cpp)
 add_executable(constexpr_c11_initarray constexpr_c11_initarray.cpp)
@@ -14,3 +14,4 @@ add_executable(proxy variadic_proxy.cpp)
 add_executable(regex regex.cpp)
 add_executable(private_class_visibility private_class_visibility.cpp)
 add_executable(function_pointers function_pointers.cpp)
+add_executable(optional optional.cpp)
