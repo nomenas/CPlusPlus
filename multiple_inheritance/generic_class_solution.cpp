@@ -63,14 +63,18 @@ public:
 
     Interface* clone() const override {
         std::cout << "Interface* BBase::clone" << std::endl;
-        return nullptr;
+		if constexpr(std::is_abstract<BBase>::value) {
+			throw std::runtime_error("BBase is abstract");
+		} else {
+			return new BBase(*this);
+		}
     }
 };
 
 using BImpl = BBase<B>;
 
 template <typename Interface>
-class CBase : public ABase<C> {
+class CBase : public ABase<Interface> {
 public:
     void do_c() override {
         std::cout << "CBase::do_c" << std::endl;
@@ -82,7 +86,11 @@ public:
 
     Interface* clone() const override {
         std::cout << "Interface* CBase::clone" << std::endl;
-        return nullptr;
+		if constexpr(std::is_abstract<CBase>::value) {
+			throw std::runtime_error("CBase is abstract");
+		} else {
+			return new CBase(*this);
+		}
     }
 };
 
@@ -98,7 +106,7 @@ public:
 
     D* clone() const override {
         std::cout << "D* DImpl::clone" << std::endl;
-        return nullptr;
+        return new DImpl(*this);
     }
 };
 
@@ -125,7 +133,7 @@ public:
 
     BC* clone() const override {
         std::cout << "BC* BCImpl::clone" << std::endl;
-        return nullptr;
+        return new BCImpl(*this);
     }
 };
 
@@ -140,7 +148,7 @@ void testConcreteImpl() {
     test.do_a();
     test.do_b();
     test.do_b_private();
-    std::cout << typeid(test.clone()).name() << " expected B*" << std::endl;
+    std::cout << typeid(*test.clone()).name() << " expected B" << std::endl;
 }
 
 void testExtendingConcreteImpl() {
@@ -176,7 +184,7 @@ void testMultipleInheritanceUpCast() {
     std::cout << "\n*** Multiple Inheritance Up Cast Test ***\n" << std::endl;
     BCImpl test;
     auto interface = static_multi_cast<B, BCImpl::B>(&test);
-    std::cout << typeid(interface->clone()).name() << " expected BC*" << std::endl;
+    std::cout << typeid(*interface->clone()).name() << " expected BCImpl" << std::endl;
 }
 
 void testMultipleInheritanceDownCast() {
@@ -184,7 +192,7 @@ void testMultipleInheritanceDownCast() {
     BCImpl test;
     auto b_interface = static_multi_cast<B, BCImpl::B>(&test);
     auto bc_interface = static_cast<BC*>(b_interface);
-    std::cout << typeid(bc_interface->clone()).name() << " expected BC*" << std::endl;
+    std::cout << typeid(*bc_interface->clone()).name() << " expected BCImpl" << std::endl;
 }
 
 int main() {
