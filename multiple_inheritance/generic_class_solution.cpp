@@ -10,14 +10,14 @@ public:
     virtual A* clone() const = 0;
 };
 
-class B : public A {
+class B : public virtual A {
 public:
     virtual void do_b() = 0;
 
     virtual B* clone() const = 0;
 };
 
-class C : public A {
+class C : public virtual A {
 public:
     virtual void do_c() = 0;
 
@@ -51,7 +51,7 @@ public:
 using AImpl = ABase<A>;
 
 template <typename Interface>
-class BBase : public ABase<Interface> {
+class BBase : public virtual ABase<Interface> {
 public:
     void do_b() override {
         std::cout << "BBase::do_b" << std::endl;
@@ -74,7 +74,7 @@ public:
 using BImpl = BBase<B>;
 
 template <typename Interface>
-class CBase : public ABase<Interface> {
+class CBase : public virtual ABase<Interface> {
 public:
     void do_c() override {
         std::cout << "CBase::do_c" << std::endl;
@@ -166,9 +166,11 @@ void testCasts() {
     DImpl test;
     auto interface = static_cast<B*>(&test);
     std::cout << typeid(interface->clone()).name() << " expected D*" << std::endl;
-    auto impl = static_cast<BImpl*>(interface);
-    impl->do_b_private();
-    std::cout << typeid(impl->clone()).name() << " expected D*" << std::endl;
+
+    // IMPOSSIBLE because BBase inherits virtually from ABase<B> and thus B
+    // auto impl = static_cast<BImpl*>(interface);
+    // impl->do_b_private();
+    // std::cout << typeid(impl->clone()).name() << " expected D*" << std::endl;
 }
 
 void testMultipleInheritance() {
