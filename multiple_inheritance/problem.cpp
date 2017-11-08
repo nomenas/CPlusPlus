@@ -6,29 +6,35 @@ public:
     virtual void do_a() = 0;
 };
 
-class BaseImplementation : /* virtual */ public A {
+class AImpl : public A {
 public:
     void do_a() override {
-        std::cout << "BaseImplementation::do_base" << std::endl;
+        std::cout << "AImpl::do_base" << std::endl;
     }
 };
 
-class Interface_A : /* virtual */ public A {
+class B : public A {
 public:
     virtual void do_b() = 0;
 };
 
-class ExtensionImplementation : public BaseImplementation, public Interface_A {
+class BImpl : public AImpl, public B {
 public:
     void do_b() override {
-        std::cout << "ExtensionImplementation::do_interface_A" << std::endl;
+        std::cout << "BImpl::do_interface_A" << std::endl;
+    }
+
+    void do_a() override {
+        AImpl::do_a();
     }
 };
 
 int main() {
-    ExtensionImplementation test;
+    BImpl test;
     test.do_a();
     test.do_b();
+    // TODO
 
+    A* a_interface = static_cast<A*>(&test);
     return 0;
 }

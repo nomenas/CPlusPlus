@@ -5,3 +5,4 @@ set(CMAKE_CXX_STANDARD 11)
 
 add_executable(multiple_inheritance_problem problem.cpp)
 add_executable(generic_baseclass_solution generic_class_solution.cpp)
+add_executable(multiple_inheritance multiple_inheritance.cpp)
